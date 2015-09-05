@@ -36,8 +36,8 @@ io.on( "connection", function( socket ) {
 } );
 
 // server listen on port 3000
-http.listen( 3000, function() {
+http.listen( process.env.PORT || 5000, function() {
 
-	console.log( "Listening on *:3000" );
+	console.log( "Listening on *:5000" );
 
 } );
