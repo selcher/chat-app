@@ -1,0 +1,107 @@
+<!doctype html>
+
+<html>
+
+	<head>
+
+		<title>
+			Socket.IO Chat
+		</title>
+
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font: 13px Helvetica, Arial;
+			}
+			form {
+				width: 100%;
+				padding: 3px;
+				position: fixed;
+				bottom: 0;
+				background: #000;
+			}
+			form input {
+				margin-right: .5%;
+				padding: 10px;
+				border: 0;
+			}
+			form button {
+				width: 9%;
+				padding: 10px;
+				background: rgba( 130, 225, 255, 0.5 );
+				border: none;
+			}
+			#messages {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+			}
+			#messages li {
+				padding: 5px 10px;
+			}
+			#messages li:nth-child(odd) {
+				background: #EEE;
+			}
+			#username {
+				width: 20%;
+			}
+			#usermessage {
+				width: 70%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<ul id="messages"></ul>
+
+		<form action="">
+			<input id="username"
+				autocomplete="off"
+				value="guest" />
+			<input id="usermessage"
+				autocomplete="off" />
+			<button>
+				Send
+			</button>
+		</form>
+
+		<script src="static/js/socket.io-1.3.0.js"></script>
+		<script src="static/js/jquery-1.11.3.min.js"></script>
+
+		<script>
+
+			var socket = io();
+
+			var userName = $( "#username" );
+			var userMessage = $( "#usermessage" );
+
+			$( "form" ).submit( function( e ) {
+
+				var msg = userName.val() + ": " +
+					userMessage.val();
+
+				socket.emit( "chat message", msg );
+
+				userMessage.val( "" );
+
+				return false;
+
+			} );
+
+			socket.on( "chat message", function( msg ) {
+
+				$( "#messages" ).append( $( "<li>" ).text( msg ) );
+
+			} );
+
+		</script>
+
+	</body>
+
+</html>
